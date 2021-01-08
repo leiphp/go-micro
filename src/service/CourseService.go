@@ -1,7 +1,8 @@
-package Course
+package service
 
 import (
 	"context"
+	."go-micro/src/Course"
 )
 
 func NewCourseModel (id int32, name string) *CourseModel {
