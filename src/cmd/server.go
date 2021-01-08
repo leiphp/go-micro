@@ -12,7 +12,7 @@ type UserService struct {
 }
 
 func(g *UserService) Test(ctx context.Context, req *Users.UserRequest, rsp *Users.UserResponse) error {
-	rsp.Ret = "users"
+	rsp.Ret = "users" + req.Id
 	return nil
 }
 
@@ -22,7 +22,7 @@ func NewUserService() *UserService {
 
 func main(){
 	service := micro.NewService(
-		micro.Name("UserService"))
+		micro.Name("api.100txy.com.user"))
 	service.Init()
 	err := Users.RegisterUserServiceHandler(service.Server(), NewUserService())
 	if err != nil {
