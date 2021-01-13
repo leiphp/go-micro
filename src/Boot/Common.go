@@ -9,8 +9,8 @@ import (
 )
 
 var BootErrChan chan error
-//启动函数，用于各种初始化，首先完成配置中心的初始化
 
+//启动函数，用于各种初始化，首先完成配置中心的初始化
 func BootInit(){
 	BootErrChan = make(chan error)
 	Config.InitConfig()
@@ -26,7 +26,10 @@ func BootInit(){
 
 //服务器已经准备好了，后面要不断扩展
 func ServerIsReady() bool {
-	return true
+	if configIsReady() && mysql_db != nil {
+		return true
+	}
+	return false
 }
 
 //通用的超时控制函数
