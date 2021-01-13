@@ -6,7 +6,6 @@ import (
 	"github.com/micro/go-micro/v2/web"
 	"go-micro/framework/gin_"
 	"go-micro/src/Boot"
-	"go-micro/src/Config"
 	_ "go-micro/src/lib"
 	"strings"
 )
@@ -26,7 +25,7 @@ func main(){
 	gin_.BootStrap(r)
 
 	service := web.NewService(
-		web.Name(strings.Join([]string{Config.JConfig.Service.Namespace,Config.JConfig.Service.Name},".")),
+		web.Name(strings.Join([]string{Boot.JConfig.Service.Namespace,Boot.JConfig.Service.Name},".")),
 		web.Handler(r),
 		)
 	service.Init()

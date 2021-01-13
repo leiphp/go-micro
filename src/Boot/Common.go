@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/micro/go-micro/v2/logger"
-	"go-micro/src/Config"
 	"time"
 )
 
@@ -13,7 +12,7 @@ var BootErrChan chan error
 //启动函数，用于各种初始化，首先完成配置中心的初始化
 func BootInit(){
 	BootErrChan = make(chan error)
-	Config.InitConfig()
+	InitConfig()
 	go func() {
 		err := WaitForConfigReady(time.Second*5)
 		if err != nil {

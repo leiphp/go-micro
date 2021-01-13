@@ -1,0 +1,3 @@
+dsn: root:123456@tcp(localhost:3306)/gomicro?charset=utf8mb4&parseTime=True&loc=Local
+maxidle: 5
+maxopen: 10
