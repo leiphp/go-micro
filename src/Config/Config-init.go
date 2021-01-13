@@ -23,8 +23,9 @@ type GlobalConfig struct {
 
 type DataConfig struct {
 	Mysql *struct{
-		Ip 		string
-		Port 	int
+		Dsn 		string
+		Maxidle 	int
+		Maxopen 	int
 	}
 	Redis *struct{
 		Ip 		string

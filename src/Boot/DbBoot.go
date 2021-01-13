@@ -3,25 +3,39 @@ package Boot
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"go-micro/src/Config"
+	"time"
 )
 
 
 //mysql相关
 var mysql_db *gorm.DB
-func init(){
-	InitMysql()
+
+func WaitForDbReady(d time.Duration) {
+	go func() {
+		err := WaitForReady(d,func() error {
+			return InitMysql()
+		},"数据库初始化成功","数据库初始化失败")
+		if err != nil {
+			BootErrChan<-err
+		}
+	}()
 }
+
+//func init(){
+//	InitMysql()
+//}
 
 func InitMysql() error {
 	var err error
-	mysql_db, err = gorm.Open("mysql", "root:root@tcp(192.168.2.239:3306)/test?charset=utf8&parseTime=True&loc=Local")
+	mysql_db, err = gorm.Open("mysql", Config.JConfig.Data.Mysql.Dsn)
 	if err != nil {
 		mysql_db=nil
 		 return NewFatalError(err.Error()) //这里返回致命异常
 	}
 	mysql_db.SingularTable(true)
-	mysql_db.DB().SetMaxIdleConns( 10)
-	mysql_db.DB().SetMaxOpenConns( 100)
+	mysql_db.DB().SetMaxIdleConns(  Config.JConfig.Data.Mysql.Maxidle)
+	mysql_db.DB().SetMaxOpenConns(  Config.JConfig.Data.Mysql.Maxopen)
 	mysql_db.LogMode(true)
 
 

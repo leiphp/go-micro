@@ -5,11 +5,16 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
+	"go-micro/src/Boot"
 	"go-micro/src/Config"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -39,8 +44,33 @@ func WaitForReady() error {
 	}
 }
 
+func main() {
+	Boot.BootInit()
+	r := gin.New()
+	//r.Use(CheckForReade())
+	r.Handle("GET","/", func(context *gin.Context) {
+		context.JSON(200,gin.H{"result":Config.JConfig.Data.Mysql})
+	})
+
+	go func() {
+		err := r.Run(":8112")
+		if err != nil {
+			Boot.BootErrChan<-err
+		}
+	}()
+
+	go func() {
+		sig_c := make(chan os.Signal)
+		signal.Notify(sig_c,syscall.SIGINT,syscall.SIGTERM)
+		Boot.BootErrChan<-fmt.Errorf("%s",<-sig_c)
+	}()
+
+	getErr := <-Boot.BootErrChan
+	logger.Info(getErr)
+}
+
 //网址服务读取配置，延迟处理
-func main(){
+func main5(){
 	Config.InitConfig()
 	fmt.Println(Config.JConfig.Data.Mysql)
 

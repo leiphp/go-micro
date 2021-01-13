@@ -1,6 +1,7 @@
 mysql:
-    ip: 192.168.101.204
-    port: 3306
+    dsn: root:123456@tcp(localhost:3306)/gomicro?charset=utf8mb4&parseTime=True&loc=Local
+    maxidle: 5
+    maxopen: 10
 redis:
     ip: 192.168.101.206
     port: 6379
