@@ -10,7 +10,6 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"go-micro/src/Boot"
-	"go-micro/src/Config"
 	"log"
 	"os"
 	"os/signal"
@@ -37,7 +36,7 @@ func WaitForReady() error {
 			case <-ctx.Done():
 				return fmt.Errorf("init config error")
 		default:
-			if Config.JConfig.Data.Mysql != nil {
+			if Boot.JConfig.Data.Mysql != nil {
 				return nil
 			}
 		}
@@ -49,7 +48,7 @@ func main() {
 	r := gin.New()
 	//r.Use(CheckForReade())
 	r.Handle("GET","/", func(context *gin.Context) {
-		context.JSON(200,gin.H{"result":Config.JConfig.Data.Mysql})
+		context.JSON(200,gin.H{"result":Boot.JConfig.Data.Mysql})
 	})
 
 	go func() {
@@ -71,8 +70,8 @@ func main() {
 
 //网址服务读取配置，延迟处理
 func main5(){
-	Config.InitConfig()
-	fmt.Println(Config.JConfig.Data.Mysql)
+	Boot.InitConfig()
+	fmt.Println(Boot.JConfig.Data.Mysql)
 
 	err := WaitForReady()
 	if err != nil {
@@ -81,19 +80,19 @@ func main5(){
 
 	r := gin.New()
 	r.Handle("GET","/", func(context *gin.Context) {
-		context.JSON(200,gin.H{"result":Config.JConfig.Data.Mysql})
+		context.JSON(200,gin.H{"result":Boot.JConfig.Data.Mysql})
 	})
 	r.Run(":8111")
 }
 
 //封装初始化去nacos拿配置
 func main4(){
-	Config.InitConfig()
-	fmt.Println(Config.JConfig.Data.Mysql)
+	Boot.InitConfig()
+	fmt.Println(Boot.JConfig.Data.Mysql)
 
 	for{
 		time.Sleep(time.Second*1)
-		fmt.Println(Config.JConfig.Data.Mysql)
+		fmt.Println(Boot.JConfig.Data.Mysql)
 	}
 }
 

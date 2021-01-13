@@ -1,8 +1,9 @@
-package Config
+package Boot
 
 import (
 	"fmt"
 	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -11,6 +12,11 @@ import (
 	"os"
 	"time"
 )
+
+type DataConfig struct {
+	Mysql *MySqlConfig
+	Redis *RedisConfig
+}
 
 type GlobalConfig struct {
 	Config *struct{
@@ -23,18 +29,6 @@ type GlobalConfig struct {
 		Name 		string
 	}
 	Data *DataConfig
-}
-
-type DataConfig struct {
-	Mysql *struct{
-		Dsn 		string
-		Maxidle 	int
-		Maxopen 	int
-	}
-	Redis *struct{
-		Ip 		string
-		Port 	int
-	}
 }
 
 var JConfig *GlobalConfig
@@ -63,16 +57,23 @@ func InitConfig() {
 		"serverConfigs": serverConfigs,
 	})
 	//开始加重数据相关配置
-	listenNacos("100txy-sysconfig","100txy_GROUP",JConfig.Data)
+	JConfig.Data.Mysql = new(MySqlConfig)
+	listenNacos("100txy-sysconfig-mysql","100txy_GROUP",JConfig.Data.Mysql,true)
+	//listenNacos("100txy-sysconfig-mysql","100txy_GROUP",JConfig.Data.xxx,false)
 }
 
-func listenNacos(dataid string, group string, model interface{}){
+func listenNacos(dataid string, group string, model ConfigInterface, reload bool){
 	err := nacosClient.ListenConfig(vo.ConfigParam{
 		DataId:   dataid,
 		Group:    group,
 		Content:  "",
 		OnChange: func(namespace, group, dataId, data string) {
 			time.Sleep(time.Second*3)
+			shouldReload := reload
+			if !model.IsLoad() {
+				shouldReload = false //如果model没有被加载过，则不需要做重载
+			}
+
 			cacheFile := fmt.Sprintf("./runtime/configcache/%s-%s.yaml",group,dataid)
 			file,err := os.OpenFile(cacheFile,os.O_RDWR|os.O_CREATE|os.O_TRUNC,0666)
 			if err != nil {
@@ -94,6 +95,15 @@ func listenNacos(dataid string, group string, model interface{}){
 			if err != nil {
 				log.Println(err)
 				return
+			}
+			if shouldReload { //重载关键代码
+				err := model.Reload()
+				if err != nil {
+					logger.Error(err)
+					return
+				}else{
+					logger.Info(dataid,"重载完成")
+				}
 			}
 		},
 	})
