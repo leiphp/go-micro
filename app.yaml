@@ -1,0 +1,5 @@
+100txy:
+  config:
+    address: localhost
+    path: /nacos
+    port: 8848
