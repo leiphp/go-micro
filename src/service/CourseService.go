@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-	"go-micro/src/Boot"
-	."go-micro/src/Course"
-	"go-micro/src/Vars"
+	. "go-micro/src/Course"
+	"go-micro/src/Mapper"
 )
 
 func NewCourseModel (id int32, name string) *CourseModel {
@@ -22,7 +21,7 @@ func (this *CourseServiceImpl) ListForTop(ctx context.Context, req *ListRequest,
 	//return nil
 
 	course := make([]*CourseModel,0)
-	err := Boot.GetDB().Table(Vars.Table_CourseMain).Order("course_id desc").Find(&course).Error
+	err := Mapper.GetCourseList().Find(&course).Error
 	if err != nil {
 		return err
 	}
