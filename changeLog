@@ -1,3 +1,4 @@
+创建数据表
 CREATE TABLE `course_main` (
   `course_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `course_name` varchar(50) NOT NULL DEFAULT '' COMMENT '课程名称',
@@ -15,3 +16,10 @@ CREATE TABLE `course_counts` (
   `count_value` int(11) NOT NULL DEFAULT '0' COMMENT '计数值',
   PRIMARY KEY (`count_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//自建网关（http api网关）
+网关的基本职能
+1、负责所以请求的接待（路由+反向代理）
+2、实现统一认证，路由，限流，负载均衡等
+3、统一管理（如：链路监控等）
+4、安全管理（黑白名单等）
