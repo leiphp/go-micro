@@ -8,6 +8,10 @@ service CourseService {
 message CourseModel {
     int32 course_id=1;
     string course_name=2;
+    string course_disp_name=3;
+    float course_price=4;
+    float course_price2=5;
+    int32 addtime=6;
 }
 
 message ListRequest {

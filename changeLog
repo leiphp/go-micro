@@ -1,0 +1,9 @@
+CREATE TABLE `course_main` (
+  `course_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `course_name` varchar(50) NOT NULL DEFAULT '' COMMENT '课程名称',
+  `course_disp_name` varchar(200) NOT NULL DEFAULT '' COMMENT '课程显示名称',
+  `course_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '课程价格',
+  `course_price2` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '备用价格',
+  `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '入库时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
