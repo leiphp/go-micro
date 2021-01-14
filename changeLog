@@ -5,5 +5,13 @@ CREATE TABLE `course_main` (
   `course_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '课程价格',
   `course_price2` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '备用价格',
   `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '入库时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `course_counts` (
+  `count_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `course_id` int(11) NOT NULL DEFAULT '0' COMMENT '课程id',
+  `count_key` varchar(30) NOT NULL DEFAULT '' COMMENT '计数key',
+  `count_value` int(11) NOT NULL DEFAULT '0' COMMENT '计数值',
+  PRIMARY KEY (`count_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
