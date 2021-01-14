@@ -3,7 +3,6 @@ package Boot
 import (
 	"fmt"
 	"github.com/micro/go-micro/v2/config"
-	"github.com/micro/go-micro/v2/logger"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -79,7 +78,6 @@ func listenNacos(dataid string, group string, model interface{}){
 				return
 			}
 			defer file.Close()
-			logger.Info("data is:",data)
 			_, err = file.WriteString(data)
 			if err != nil {
 				log.Println(err)
