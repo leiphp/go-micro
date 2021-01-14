@@ -29,6 +29,13 @@ func (this *CourseServiceImpl) ListForTop(ctx context.Context, req *ListRequest,
 	return nil
 }
 
+func (this *CourseServiceImpl) GetDetail(ctx context.Context, req *DetailRequest, rsp *DetailResponse) error {
+	if err:=Mapper.GetCourseDetail(int(req.CourseId)).Find(rsp.Result).Error;err!=nil {
+		return err
+	}
+	return nil
+}
+
 func NewCourseServiceImpl() *CourseServiceImpl {
 	return &CourseServiceImpl{}
 }
