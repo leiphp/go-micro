@@ -12,3 +12,5 @@ protoc --proto_path=src/protos  --micro_out=src/Users --go_out=src/Users Users.p
 
 ## 下载microv2工具集  
 go get github.com/micro/micro/v2
+## 卸载包
+go clean -i github.com/micro/micro
