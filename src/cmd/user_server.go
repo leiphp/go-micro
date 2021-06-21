@@ -15,7 +15,7 @@ type UserService struct {
 
 func(this *UserService) Test(ctx context.Context, req *Users.UserRequest, rsp *Users.UserResponse) error {
 	rsp.Ret = "users" + req.Id
-	c := Course.NewCourseService("api.100txy.com.course",this.client)
+	c := Course.NewCourseService("go.micro.api.course",this.client)
 	course_rsp,_ := c.ListForTop(ctx,&Course.ListRequest{Size:10})
 	log.Println(course_rsp.Result)
 	return nil
@@ -27,7 +27,7 @@ func NewUserService(c client2.Client) *UserService {
 
 func main(){
 	service := micro.NewService(
-		micro.Name("api.100txy.com.user"))
+		micro.Name("go.micro.api.user"))
 	service.Init()
 
 	err := Users.RegisterUserServiceHandler(service.Server(), NewUserService(service.Client()))
