@@ -15,6 +15,7 @@ type UserService struct {
 
 func(this *UserService) Test(ctx context.Context, req *Users.UserRequest, rsp *Users.UserResponse) error {
 	rsp.Ret = "users" + req.Id
+	//服务之间调用
 	c := Course.NewCourseService("go.micro.api.course",this.client)
 	course_rsp,_ := c.ListForTop(ctx,&Course.ListRequest{Size:10})
 	log.Println(course_rsp.Result)
