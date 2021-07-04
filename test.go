@@ -112,8 +112,8 @@ func main3(){
 		log.Fatal(err)
 	}
 	err = configClient.ListenConfig(vo.ConfigParam{
-		DataId:   "100txy-sysconfig",
-		Group:    "100txy_GROUP",
+		DataId:   "txy-sysconfig",
+		Group:    "TXY_GROUP",
 		Content:  "",
 		OnChange: func(namespace, group, dataId, data string) {
 			fmt.Println(data)
