@@ -47,9 +47,7 @@ func ReloadDB() error {
 func InitMysql() error {
 	var err error
 	fmt.Println("initmysql:",JConfig.Data.Mysql)
-	fmt.Println("initmysql:",JConfig.Data.Mysql.Dsn)
 	mysql_db, err = gorm.Open("mysql", JConfig.Data.Mysql.Dsn)
-	logger.Info("zzzzzzz",mysql_db)
 	if err != nil {
 		mysql_db=nil
 		 return NewFatalError(err.Error()) //这里返回致命异常

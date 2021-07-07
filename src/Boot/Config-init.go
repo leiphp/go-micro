@@ -3,6 +3,7 @@ package Boot
 import (
 	"fmt"
 	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -73,6 +74,7 @@ func InitConfig() {
 }
 
 func listenNacos(dataid string, group string, model interface{}){
+	var num int
 	err := nacosClient.ListenConfig(vo.ConfigParam{
 		DataId:   dataid,
 		Group:    group,
@@ -102,6 +104,19 @@ func listenNacos(dataid string, group string, model interface{}){
 				log.Println("err4",err)
 				return
 			}
+
+			//默认情况配置修改，重载关键代码
+			fmt.Println("num",num)
+			if num > 0{
+				err = ReloadDB()
+				if err != nil {
+					logger.Error(err)
+					return
+				}else{
+					logger.Info(dataid,"重载完成")
+				}
+			}
+			num++
 			fmt.Println("model",model)
 
 		},
