@@ -1,7 +1,3 @@
-mysql:
-    dsn: root:123456@tcp(localhost:3306)/gomicro?charset-utf8mb4&parseTime=True&loc=local
-	maxidle: 5
-	maxopen: 10
-redis:
-    ip: 127.0.0.1
-    port: 6379
+dsn: root:123456@tcp(localhost:3306)/gomicro?charset-utf8mb4
+maxidle: 5
+maxopen: 10

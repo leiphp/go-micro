@@ -1,5 +1,7 @@
 package Boot
 
+var mysqlLoad bool
+
 type ConfigInterface interface {
 	Reload() error
 	IsLoad() bool

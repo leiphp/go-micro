@@ -127,7 +127,7 @@ set MICRO_API_NAMESPACE=go.micro  //网关名
 ## nacos配置中心
 配置不要有制表符，一定用4个空格  
 
-格式一：  
+配置一： `Data Id：txy-sysconfig;Group：TXY_GROUP`   
 ```yaml
 mysql:
     ip: 127.0.0.1
@@ -136,8 +136,8 @@ redis:
     ip: 127.0.0.1
     port: 6379
 ```
-格式二：  
-```go
+配置二： `Data Id：txy-sysconfig-mysql;Group：DEFAULT_GROUP`   
+```yaml
 mysql:
     dsn: root:123456@tcp(localhost:3306)/gomicro?charset=utf8mb4
     maxidle: 5
@@ -145,4 +145,10 @@ mysql:
 redis:
     ip: 127.0.0.1
     port: 6379
+```
+配置三： `Data Id：mysql-id;Group：DEFAULT_GROUP`   
+```yaml
+dsn: root:123456@tcp(localhost:3306)/gomicro?charset-utf8mb4
+maxidle: 5
+maxopen: 10
 ```
