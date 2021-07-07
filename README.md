@@ -7,6 +7,7 @@ go-micro是一个微服务项目，封装比较优雅，API友好，源码注释
 2. gw.bat 网关服务,端口8080  
 3. user.bat 用户服务,端口9090 
 4. course.bat 课程服务，端口9091  
+5. coursehttp 课程http服务，端口9000 
   
 * 系统配置文件  
 app.yaml
@@ -90,4 +91,26 @@ set MICRO_API_NAMESPACE=go.micro  //网关名
         }
     ]
 }
+```
+## nacos配置中心
+配置不要有制表符，一定用4个空格  
+
+格式一：  
+```yaml
+mysql:
+    ip: 127.0.0.1
+    port: 3306
+redis:
+    ip: 127.0.0.1
+    port: 6379
+```
+格式二：  
+```go
+mysql:
+    dsn: root:123456@tcp(localhost:3306)/gomicro?charset=utf8mb4
+    maxidle: 5
+    maxopen: 10
+redis:
+    ip: 127.0.0.1
+    port: 6379
 ```
