@@ -10,7 +10,7 @@ import (
 
 func main(){
 	cService := micro.NewService(
-		micro.Name("api.100txy.com.course"))
+		micro.Name("go.micro.api.course"))
 	cService.Init()
 	err := Course.RegisterCourseServiceHandler(cService.Server(), service.NewCourseServiceImpl())
 	if err != nil {

@@ -1,9 +1,11 @@
 package Boot
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/micro/go-micro/v2/logger"
+	"go-micro/src/Config"
 	"sync"
 	"time"
 )
@@ -15,6 +17,7 @@ var mysql_db *gorm.DB
 func WaitForDbReady(d time.Duration) {
 	go func() {
 		err := WaitForReady(d,func() error {
+			logger.Info("mmmm")
 			return InitMysql()
 		},"数据库初始化成功","数据库初始化失败")
 		if err != nil {
@@ -23,9 +26,6 @@ func WaitForDbReady(d time.Duration) {
 	}()
 }
 
-//func init(){
-//	InitMysql()
-//}
 func ReloadDB() error {
 	var lock sync.Mutex
 	lock.Lock()
@@ -41,20 +41,24 @@ func ReloadDB() error {
 	return nil
 }
 
+//func init(){
+//	InitMysql()
+//}
 
 func InitMysql() error {
 	var err error
-	mysql_db, err = gorm.Open("mysql", JConfig.Data.Mysql.Dsn)
-	logger.Info("zzzz",JConfig.Data.Mysql.Dsn)
+	fmt.Println("initmysql:",Config.JConfig.Data.Mysql)
+	fmt.Println("initmysql:",Config.JConfig.Data.Mysql.Dsn)
+	mysql_db, err = gorm.Open("mysql", Config.JConfig.Data.Mysql.Dsn)
+	logger.Info("zzzzzzz",mysql_db)
 	if err != nil {
 		mysql_db=nil
 		 return NewFatalError(err.Error()) //这里返回致命异常
 	}
 	mysql_db.SingularTable(true)
-	mysql_db.DB().SetMaxIdleConns(  JConfig.Data.Mysql.Maxidle)
-	mysql_db.DB().SetMaxOpenConns( JConfig.Data.Mysql.Maxopen)
+	mysql_db.DB().SetMaxIdleConns(Config.JConfig.Data.Mysql.Maxidle)
+	mysql_db.DB().SetMaxOpenConns(Config.JConfig.Data.Mysql.Maxopen)
 	mysql_db.LogMode(true)
-
 
 	return nil
 }

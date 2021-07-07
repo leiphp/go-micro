@@ -14,7 +14,8 @@ func BootInit(){
 	BootErrChan = make(chan error)
 	InitConfig()
 	go func() {
-		err := WaitForConfigReady(time.Second*5)
+		err := WaitForConfigReady(time.Second*8)
+		fmt.Println("err：",err)
 		if err != nil {
 			BootErrChan<-err
 		}else{
@@ -41,6 +42,7 @@ func WaitForReady(d time.Duration, f func() error,success string,fail string) er
 				return fmt.Errorf(fail)
 		default:
 			err := f()
+			//logger.Info("f err:",err)
 			if err == nil {//没有错误，则直接返回
 				logger.Info(success)
 				return nil

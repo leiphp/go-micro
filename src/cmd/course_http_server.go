@@ -1,13 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/logger"
 	"github.com/micro/go-micro/v2/web"
 	"go-micro/framework/gin_"
 	"go-micro/src/Boot"
 	_ "go-micro/src/lib"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 )
 
 
@@ -21,7 +25,7 @@ func main(){
 	//	course_rsp,_ := c.ListForTop(context.Background(),&Course.ListRequest{Size:10})
 	//	ctx.JSON(200, gin.H{"Result":course_rsp.Result})
 	//})
-
+logger.Info("yyyyyyy")
 	gin_.BootStrap(r)
 
 	service := web.NewService(
@@ -33,6 +37,11 @@ func main(){
 		if err := service.Run(); err != nil {
 			Boot.BootErrChan<-err
 		}
+	}()
+	go func() {
+		sig_c := make(chan os.Signal)
+		signal.Notify(sig_c,syscall.SIGINT,syscall.SIGTERM)
+		Boot.BootErrChan<-fmt.Errorf("%s",<-sig_c)
 	}()
 	getErr := <-Boot.BootErrChan
 	logger.Info(getErr)

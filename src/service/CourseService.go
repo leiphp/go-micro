@@ -5,7 +5,7 @@ import (
 	. "go-micro/src/Course"
 	"go-micro/src/Mapper"
 )
-
+//grpc和http公共服务文件
 func NewCourseModel (id int32, name string) *CourseModel {
 	return &CourseModel{CourseId:id,CourseName:name}
 }
