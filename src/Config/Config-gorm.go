@@ -30,6 +30,10 @@ type GlobalConfig struct {
 		Path 	string
 		Port 	uint64
 	}
+	Service *struct{
+		Namespace 	string
+		Name 		string
+	}
 	Data *DataConfig
 }
 
