@@ -21,3 +21,8 @@ func GetCourseListBySql(args ...interface{}) *gorm.DB{
 func GetCourseDetail(course_id int) *gorm.DB{
 	return Boot.GetDB().Table(vars.Table_CourseMain).Where("course_id = ?",course_id)
 }
+
+//获取课程计数
+func GetCourseCounts(course_id int) *gorm.DB{
+	return Boot.GetDB().Table(vars.Table_CourseCounts).Where("course_id = ?",course_id)
+}

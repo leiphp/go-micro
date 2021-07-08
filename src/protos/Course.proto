@@ -20,6 +20,16 @@ message CourseModel {
     Timestamp create_time=6;
 }
 
+//计数表
+message CourseCounts {
+    //@inject_tag: json:"-"
+    int32 count_id=1;
+    //@inject_tag: json:"-"
+    int32 course_id=2;
+    string count_key=3;
+    int32 count_value=4;
+}
+
 message ListRequest {
     int32 size=1;
 }
@@ -27,6 +37,8 @@ message ListRequest {
 message DetailRequest {
     //@inject_tag: uri:"course_id"
     int32 course_id=1;
+    //@inject_tag: header:"fetch_type"
+    int32 fetch_type=2;
 }
 
 message ListResponse {
@@ -34,5 +46,6 @@ message ListResponse {
 }
 
 message DetailResponse {
-    CourseModel result = 1;
+    CourseModel course = 1;
+    repeated CourseCounts counts = 2;
 }

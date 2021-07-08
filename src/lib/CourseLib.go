@@ -25,7 +25,7 @@ func init() {
 //获取详情相关
 func Coursedetail_Endpoint(c *service.CourseServiceImpl)   gin_.Endpoint {
 	return func(context *gin.Context, request interface{}) (response interface{}, err error) {
-		rsp:=&Course.DetailResponse{Result:new(Course.CourseModel)}
+		rsp:=&Course.DetailResponse{Course:new(Course.CourseModel),Counts:make([]*Course.CourseCounts,0)}
 		err=c.GetDetail(context,request.(*Course.DetailRequest),rsp)
 		return rsp,err
 	}
@@ -35,6 +35,10 @@ func Coursedetail_Request() gin_.EncodeRequestFunc{
 	return func(context *gin.Context) (i interface{}, e error) {
 		bReq:=&Course.DetailRequest{}
 		err:=context.BindUri(bReq) //使用的是uri 参数
+		if err!=nil{
+			return nil,err
+		}
+		err = context.BindHeader(bReq)
 		if err!=nil{
 			return nil,err
 		}

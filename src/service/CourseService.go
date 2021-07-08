@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	. "go-micro/src/Course"
 	"go-micro/src/mapper"
 )
@@ -27,10 +28,20 @@ func (this *CourseServiceImpl) ListForTop(ctx context.Context, req *ListRequest,
 
 //获取课程详情
 func (this *CourseServiceImpl) GetDetail(ctx context.Context, req *DetailRequest, rsp *DetailResponse)  error {
-
-	if err := mapper.GetCourseDetail(int(req.CourseId)).Find(rsp.Result).Error; err != nil{
-		return err
+	//只取课程详细
+	fmt.Println("fetch_type",req.FetchType)
+	if req.FetchType==0 || req.FetchType==1|| req.FetchType==3{
+		if err := mapper.GetCourseDetail(int(req.CourseId)).Find(rsp.Course).Error; err != nil{
+			return err
+		}
 	}
+	//只取计数表详情
+	if req.FetchType==2||req.FetchType==3{
+		if err := mapper.GetCourseCounts(int(req.CourseId)).Find(&rsp.Counts).Error; err != nil{
+			return err
+		}
+	}
+
 	return nil
 }
 
