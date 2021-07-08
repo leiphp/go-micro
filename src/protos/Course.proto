@@ -7,6 +7,7 @@ message Timestamp{
 
 service CourseService {
     rpc ListForTop(ListRequest) returns(ListResponse) {}
+    rpc GetDetail(DetailRequest) returns(DetailResponse) {}
 }
 
 message CourseModel {
@@ -23,6 +24,15 @@ message ListRequest {
     int32 size=1;
 }
 
+message DetailRequest {
+    //@inject_tag: uri:"course_id"
+    int32 course_id=1;
+}
+
 message ListResponse {
     repeated CourseModel result = 1;
+}
+
+message DetailResponse {
+    CourseModel result = 1;
 }
