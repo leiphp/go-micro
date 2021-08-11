@@ -30,6 +30,9 @@ go get github.com/micro/micro/v2
 ## 卸载包
 go clean -i github.com/micro/micro
 
+## 安装inject-tag工具
+go get github.com/favadi/protoc-go-inject-tag
+
 ## 网关及服务
 ```
 micro.Name("go.micro.api.user"))  //服务名  
