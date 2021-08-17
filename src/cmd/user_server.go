@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	client2 "github.com/micro/go-micro/v2/client"
+	"go-micro/src/Boot"
 	"go-micro/src/Course"
 	"go-micro/src/Users"
 	"log"
@@ -27,6 +28,8 @@ func NewUserService(c client2.Client) *UserService {
 }
 
 func main(){
+	//加载各种配置，初始化等
+	Boot.BootInit()
 	service := micro.NewService(
 		micro.Name("go.micro.api.user"))
 	service.Init()

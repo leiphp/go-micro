@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/micro/go-micro/v2"
+	"go-micro/src/Boot"
 	"go-micro/src/Course"
 	"go-micro/src/service"
 	"log"
@@ -9,6 +10,8 @@ import (
 
 
 func main(){
+	//加载各种配置，初始化等
+	Boot.BootInit()
 	cService := micro.NewService(
 		micro.Name("go.micro.api.course"))
 	cService.Init()
