@@ -127,6 +127,39 @@ set MICRO_API_NAMESPACE=go.micro  //网关名
 }
 ```
 
+### 1-3 使用自己网关8090调用`coursehttp`服务
+
+**请求方式**
+
+`GET` `http://localhost:8090/v1/test`
+
+**Header**  
+`Content-Type: application/json`
+`X-Id: 1`
+
+**Body参数说明**  
+
+|参数|类型|说明|  
+|-|-|-|  
+
+
+**Response返回示例**  
+
+```
+{
+    "result": [
+        {
+            "course_id": 101,
+            "course_name": "java课程"
+        },
+        {
+            "course_id": 102,
+            "course_name": "php课程"
+        }
+    ]
+}
+```
+
 ## nacos配置中心
 配置不要有制表符，一定用4个空格  
 
